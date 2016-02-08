@@ -85,12 +85,12 @@ local function lock_group_name(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_name_set = data[tostring(target)]['settings']['set_name']
-    local group_name_lock = data[tostring(target)]['settings']['lock_name']
+    local group_name_set = data[tostring(target)]['settings']['s_n']
+    local group_name_lock = data[tostring(target)]['settings']['l_n']
         if group_name_lock == 'yes' then
             return 'Group name is already locked'
         else
-            data[tostring(target)]['settings']['lock_name'] = 'yes'
+            data[tostring(target)]['settings']['l_n'] = 'yes'
                 save_data(_config.moderation.data, data)
                 rename_chat('chat#id'..target, group_name_set, ok_cb, false)
         return 'Group name has been locked'
@@ -101,12 +101,12 @@ local function unlock_group_name(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_name_set = data[tostring(target)]['settings']['set_name']
-    local group_name_lock = data[tostring(target)]['settings']['lock_name']
+    local group_name_set = data[tostring(target)]['settings']['s_n']
+    local group_name_lock = data[tostring(target)]['settings']['l_n']
         if group_name_lock == 'no' then
             return 'Group name is already unlocked'
         else
-            data[tostring(target)]['settings']['lock_name'] = 'no'
+            data[tostring(target)]['settings']['l_n'] = 'no'
             save_data(_config.moderation.data, data)
         return 'Group name has been unlocked'
         end
@@ -116,11 +116,11 @@ local function lock_group_member(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_member_lock = data[tostring(target)]['settings']['lock_member']
+    local group_member_lock = data[tostring(target)]['settings']['l_m']
         if group_member_lock == 'yes' then
             return 'Group members are already locked'
         else
-            data[tostring(target)]['settings']['lock_member'] = 'yes'
+            data[tostring(target)]['settings']['l_m'] = 'yes'
             save_data(_config.moderation.data, data)
         end
         return 'Group members has been locked'
@@ -130,11 +130,11 @@ local function unlock_group_member(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_member_lock = data[tostring(target)]['settings']['lock_member']
+    local group_member_lock = data[tostring(target)]['settings']['l_m']
         if group_member_lock == 'no' then
             return 'Group members are not locked'
         else
-            data[tostring(target)]['settings']['lock_member'] = 'no'
+            data[tostring(target)]['settings']['l_m'] = 'no'
             save_data(_config.moderation.data, data)
         return 'Group members has been unlocked'
         end
@@ -145,11 +145,11 @@ local function lock_group_photo(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
+    local group_photo_lock = data[tostring(target)]['settings']['l_p']
         if group_photo_lock == 'yes' then
             return 'Group photo is already locked'
         else
-            data[tostring(target)]['settings']['set_photo'] = 'waiting'
+            data[tostring(target)]['settings']['s_p'] = 'waiting'
             save_data(_config.moderation.data, data)
         end
         return 'Please send me the group photo now'
@@ -159,11 +159,11 @@ local function unlock_group_photo(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
+    local group_photo_lock = data[tostring(target)]['settings']['l_p']
         if group_photo_lock == 'no' then
             return 'Group photo is not locked'
         else
-            data[tostring(target)]['settings']['lock_photo'] = 'no'
+            data[tostring(target)]['settings']['l_p'] = 'no'
             save_data(_config.moderation.data, data)
         return 'Group photo has been unlocked'
         end
@@ -299,17 +299,17 @@ local function groups_list(msg)
         for k,v in pairs(data[tostring(groups)]) do
                 local settings = data[tostring(v)]['settings']
                 for m,n in pairs(settings) do
-                        if m == 'set_name' then
+                        if m == 's_n' then
                                 name = n
                         end
                 end
                 local group_owner = "No owner"
                 if data[tostring(v)]['set_owner'] then
-                        group_owner = tostring(data[tostring(v)]['set_owner'])
+                        group_owner = tostring(data[tostring(v)]['s_o'])
                 end
                 local group_link = "No link"
-                if data[tostring(v)]['settings']['set_link'] then
-			group_link = data[tostring(v)]['settings']['set_link']
+                if data[tostring(v)]['settings']['s_l'] then
+			group_link = data[tostring(v)]['settings']['s_l']
 		end
 
                 message = message .. '- '.. name .. ' (' .. v .. ') ['..group_owner..'] \n {'..group_link.."}\n"
@@ -333,7 +333,7 @@ local function realms_list(msg)
         for k,v in pairs(data[tostring(realms)]) do
                 local settings = data[tostring(v)]['settings']
                 for m,n in pairs(settings) do
-                        if m == 'set_name' then
+                        if m == 's_n' then
                                 name = n
                         end
                 end
@@ -343,7 +343,7 @@ local function realms_list(msg)
 		end
                 local group_link = "No link"
                 if data[tostring(v)]['settings']['set_link'] then
-			group_link = data[tostring(v)]['settings']['set_link']
+			group_link = data[tostring(v)]['settings']['s_l']
 		end
                 message = message .. '- '.. name .. ' (' .. v .. ') ['..group_owner..'] \n {'..group_link.."}\n"
         end
@@ -392,9 +392,9 @@ local function username_id(cb_extra, success, result)
       if vusername == member then
         member_username = member
         member_id = v.id
-        if mod_cmd == 'addadmin' then
+        if mod_cmd == 'ad' then
             return admin_user_promote(receiver, member_username, member_id)
-        elseif mod_cmd == 'removeadmin' then
+        elseif mod_cmd == 'rd' then
             return admin_user_demote(receiver, member_username, member_id)
         end
       end
@@ -456,7 +456,7 @@ function run(msg, matches)
 		chat_info(receiver, returnids, {receiver=receiver})
 	end
 
-    if matches[1] == 'creategroup' and matches[2] then
+    if matches[1] == 'cg' and matches[2] then
         group_name = matches[2]
         group_type = 'group'
         return create_group(msg)
@@ -466,7 +466,7 @@ function run(msg, matches)
 		return  --Do nothing
 	end
 
-    if matches[1] == 'createrealm' and matches[2] then
+    if matches[1] == 'cr' and matches[2] then
         group_name = matches[2]
         group_type = 'realm'
         return create_realm(msg)
@@ -476,40 +476,40 @@ function run(msg, matches)
     local receiver = get_receiver(msg)
 	if matches[2] then if data[tostring(matches[2])] then
 		local settings = data[tostring(matches[2])]['settings']
-		if matches[1] == 'setabout' and matches[2] then
+		if matches[1] == 'sa' and matches[2] then
 			local target = matches[2]
 		    local about = matches[3]
 		    return set_description(msg, data, target, about)
 		end
-		if matches[1] == 'setrules' then
+		if matches[1] == 'sr' then
 		    rules = matches[3]
 			local target = matches[2]
 		    return set_rules(msg, data, target)
 		end
-		if matches[1] == 'lock' then --group lock *
+		if matches[1] == 'l' then --group lock *
 			local target = matches[2]
-		    if matches[3] == 'name' then
+		    if matches[3] == 'n' then
 		        return lock_group_name(msg, data, target)
 		    end
-		    if matches[3] == 'member' then
+		    if matches[3] == 'm' then
 		        return lock_group_member(msg, data, target)
 		    end
-		    if matches[3] == 'photo' then
+		    if matches[3] == 'p' then
 		        return lock_group_photo(msg, data, target)
 		    end
 		    if matches[3] == 'flood' then
 		        return lock_group_flood(msg, data, target)
 		    end
 		end
-		if matches[1] == 'unlock' then --group unlock *
+		if matches[1] == 'unl' then --group unlock *
 			local target = matches[2]
-		    if matches[3] == 'name' then
+		    if matches[3] == 'n' then
 		        return unlock_group_name(msg, data, target)
 		    end
-		    if matches[3] == 'member' then
+		    if matches[3] == 'm' then
 		        return unlock_group_member(msg, data, target)
 		    end
-		    if matches[3] == 'photo' then
+		    if matches[3] == 'p' then
 		    	return unlock_group_photo(msg, data, target)
 		    end
 		    if matches[3] == 'flood' then
@@ -521,20 +521,20 @@ function run(msg, matches)
 		    return show_group_settings(msg, data, target)
 		end
 
-                if matches[1] == 'setname' and is_realm(msg) then
+                if matches[1] == 'sn' and is_realm(msg) then
                     local new_name = string.gsub(matches[2], '_', ' ')
-                    data[tostring(msg.to.id)]['settings']['set_name'] = new_name
+                    data[tostring(msg.to.id)]['settings']['s_n'] = new_name
                     save_data(_config.moderation.data, data)
-                    local group_name_set = data[tostring(msg.to.id)]['settings']['set_name']
+                    local group_name_set = data[tostring(msg.to.id)]['settings']['s_n']
                     local to_rename = 'chat#id'..msg.to.id
                     rename_chat(to_rename, group_name_set, ok_cb, false)
                     savelog(msg.to.id, "Realm { "..msg.to.print_name.." }  name changed to [ "..new_name.." ] by "..name_log.." ["..msg.from.id.."]")
                 end
-		if matches[1] == 'setgpname' and is_admin(msg) then
+		if matches[1] == 'sgpn' and is_admin(msg) then
 		    local new_name = string.gsub(matches[3], '_', ' ')
-		    data[tostring(matches[2])]['settings']['set_name'] = new_name
+		    data[tostring(matches[2])]['settings']['s_n'] = new_name
 		    save_data(_config.moderation.data, data)
-		    local group_name_set = data[tostring(matches[2])]['settings']['set_name']
+		    local group_name_set = data[tostring(matches[2])]['settings']['set_n']
 		    local to_rename = 'chat#id'..matches[2]
 		    rename_chat(to_rename, group_name_set, ok_cb, false)
                     savelog(msg.to.id, "Group { "..msg.to.print_name.." }  name changed to [ "..new_name.." ] by "..name_log.." ["..msg.from.id.."]")
@@ -588,25 +588,25 @@ function run(msg, matches)
 				chat_del_user(chat, user, ok_cb, true)
 			end
 		end
-		if matches[1] == 'addadmin' then
+		if matches[1] == 'ad' then
 			if string.match(matches[2], '^%d+$') then
 				local admin_id = matches[2]
 				print("user "..admin_id.." has been promoted as admin")
 				return admin_promote(msg, admin_id)
 			else
 			local member = string.gsub(matches[2], "@", "")
-				local mod_cmd = "addadmin"
+				local mod_cmd = "ad"
 				chat_info(receiver, username_id, {mod_cmd= mod_cmd, receiver=receiver, member=member})
 			end
 		end
-		if matches[1] == 'removeadmin' then
+		if matches[1] == 'rv' then
 			if string.match(matches[2], '^%d+$') then
 				local admin_id = matches[2]
 				print("user "..admin_id.." has been demoted")
 				return admin_demote(msg, admin_id)
 			else
 			local member = string.gsub(matches[2], "@", "")
-				local mod_cmd = "removeadmin"
+				local mod_cmd = "rv"
 				chat_info(receiver, username_id, {mod_cmd= mod_cmd, receiver=receiver, member=member})
 			end
 		end
@@ -654,26 +654,26 @@ end
 
 return {
   patterns = {
-    "^[!/](creategroup) (.*)$",
-    "^[!/](createrealm) (.*)$",
-    "^[!/](setabout) (%d+) (.*)$",
-    "^[!/](setrules) (%d+) (.*)$",
-    "^[!/](setname) (.*)$",
-    "^[!/](setgpname) (%d+) (.*)$",
-    "^[!/](setname) (%d+) (.*)$",
-        "^[!/](lock) (%d+) (.*)$",
-    "^[!/](unlock) (%d+) (.*)$",
-    "^[!/](setting) (%d+)$",
-        "^[!/](wholist)$",
-        "^[!/](who)$",
-        "^[!/](type)$",
-    "^[!/](kill) (chat) (%d+)$",
-    "^[!/](kill) (realm) (%d+)$",
-    "^[!/](addadmin) (.*)$", -- sudoers only
-    "^[!/](removeadmin) (.*)$", -- sudoers only
-    "^[!/](list) (.*)$",
-        "^[!/](log)$",
-        "^[!/](help)$",
+    "^(cg) (.*)$",
+    "^(cr) (.*)$",
+    "^(sa) (%d+) (.*)$",
+    "^(sr) (%d+) (.*)$",
+    "^(sn) (.*)$",
+    "^(sgpn) (%d+) (.*)$",
+    "^(sn) (%d+) (.*)$",
+        "^(l) (%d+) (.*)$",
+    "^(unl) (%d+) (.*)$",
+    "^(setting) (%d+)$",
+        "^(wholist)$",
+        "^(who)$",
+        "^(type)$",
+    "^(kill) (chat) (%d+)$",
+    "^(kill) (realm) (%d+)$",
+    "^(ad) (.*)$", -- sudoers only
+    "^(rd) (.*)$", -- sudoers only
+    "^(list) (.*)$",
+        "^(log)$",
+        "^(help)$",
         "^!!tgservice (.+)$",
   },
   run = run
