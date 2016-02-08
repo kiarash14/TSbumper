@@ -480,17 +480,9 @@ Join our bot development group by sending `/join 56670147` to [@TeleSeed](https:
 _If you are using /join service for first time you have to send it 11 times ( Bot is spam reported )_
 
 # Special thanks to
-[@seyedan25](https://telegram.me/kiarash_gh14)
+[@KIARASH_GH14](https://telegram.me/kiarash_gh14)
 
-For Managing [@teleseed](https://telegram.me/TeleBumper) on Telegram
-
-[@Vamptacus](https://telegram.me/Vamptacus)
-
-For graphic designs
-
-[@topkecleon](https://github.com/topkecleon)
-
-[@JuanPotato](https://github.com/JuanPotato)
+For Managing [@teleBumper](https://telegram.me/TeleBumper) on Telegram
 
 # Our team!
 
@@ -502,4 +494,4 @@ For graphic designs
 
 [Rondoozle](https://github.com/Rondoozle) ([Telegram](https://telegram.me/Rondoozle))
 
-Our Telegram cahnnels > English: [@TeleBumper](https://telegram.me/teleBumper) Persian: [@teleBump](https://telegram.me/telebump)
+Our Telegram cahnnels > English: [@TeleBumperch](https://telegram.me/teleBumperch) Persian: [@teleBump](https://telegram.me/telebump)
