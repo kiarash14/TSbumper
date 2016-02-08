@@ -502,4 +502,4 @@ For graphic designs
 
 [Rondoozle](https://github.com/Rondoozle) ([Telegram](https://telegram.me/Rondoozle))
 
-Our Telegram cahnnels > English: [@TeleSeedCH](https://telegram.me/teleBumper) Persian: [@IranSeed](https://telegram.me/telebu,p)
+Our Telegram cahnnels > English: [@TeleBumper](https://telegram.me/teleBumper) Persian: [@teleBump](https://telegram.me/telebump)
