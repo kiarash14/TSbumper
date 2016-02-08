@@ -484,14 +484,6 @@ _If you are using /join service for first time you have to send it 11 times ( Bo
 
 For Managing [@teleBumper](https://telegram.me/TeleBumper) on Telegram
 
-# Our team!
-
-[Alphonse](https://github.com/hmon) ([Telegram](https://telegram.me/iwals))
-
-[I M /-\ N](https://github.com/imandaneshi) ([Telegram](https://telegram.me/imandaneshi))
-
-[Siyanew](https://github.com/Siyanew) ([Telegram](https://telegram.me/Siyanew))
-
-[Rondoozle](https://github.com/Rondoozle) ([Telegram](https://telegram.me/Rondoozle))
+# channel Bumperbot
 
 Our Telegram cahnnels > English: [@TeleBumperch](https://telegram.me/teleBumperch) Persian: [@teleBump](https://telegram.me/telebump)
