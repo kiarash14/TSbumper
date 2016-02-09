@@ -204,6 +204,7 @@ function create_config( )
   -- A simple config with basic plugins and ourselves as privileged user
   config = {
     enabled_plugins = {
+    "admin",
     "onservice",
     "inrealm",
     "ingroup",
@@ -245,68 +246,70 @@ Id Bot
     help_text_realm = [[
 Realm Commands:
 
-!creategroup [Name]
+cg [Name] (creategroup)
 Create a group
 
-!createrealm [Name]
+cr [Name] (createrealm)
 Create a realm
 
-!setname [Name]
+sn [Name] (setname)
 Set realm name
 
-!setabout [GroupID] [Text]
+sa [GroupID] [Text] (setabout)
 Set a group's about text
 
-!setrules [GroupID] [Text]
+sr [GroupID] [Text] (setrules)
 Set a group's rules
 
-!lock [GroupID] [setting]
+l [GroupID] [setting]
 Lock a group's setting
 
-!unlock [GroupID] [setting]
+unl [GroupID] [setting]
 Unock a group's setting
 
-!wholist
+wholist
 Get a list of members in group/realm
 
-!who
+who
 Get a file of members in group/realm
 
-!type
+type
 Get group type
 
-!kill chat [GroupID]
+kill chat [GroupID]
 Kick all memebers and delete group
 
-!kill realm [RealmID]
+kill realm [RealmID]
 Kick all members and delete realm
 
-!addadmin [id|username]
+add [id|username] (addadmin)
 Promote an admin by id OR username *Sudo only
 
-!removeadmin [id|username]
+rd [id|username] (removeadmin)
 Demote an admin by id OR username *Sudo only
 
-!list groups
+list groups
 Get a list of all groups
 
-!list realms
+list realms
 Get a list of all realms
 
-!log
+log
 Grt a logfile of current group or realm
 
-!broadcast [text]
-!broadcast Hello !
+brc [text]
+brc Hello !
 Send text to all groups
 Only sudo users can run this command
 
-!br [group_id] [text]
-!br 123456789 Hello !
+bc [group_id] [text]
+bc 123456789 Hello !
 This command will send text to [group_id]
 
+telebumper
+Information about robots
 
-**U can use both "/" and "!" 
+**The robot asymptomatic ! And / doing.
 
 
 *Only admins and sudo can add bots in group
@@ -315,104 +318,107 @@ This command will send text to [group_id]
 *Only admins and sudo can use kick,ban,unban,newlink,setphoto,setname,lock,unlock,set rules,set about and settings commands
 
 *Only admins and sudo can use res, setowner, commands
+
 ]],
     help_text = [[
 Commands list :
-
-!kick [username|id]
+k (kick) [username|id]
 You can also do it by reply
 
-!ban [ username|id]
+b (ban) [ username|id]
 You can also do it by reply
 
-!unban [id]
+unb (unban) [id]
 You can also do it by reply
 
-!who
+who
 Members list
 
-!modlist
+modlist (promotelist)
 Moderators list
 
-!promote [username]
+p [username] (promote)
 Promote someone
 
-!demote [username]
+d [username] (demote)
 Demote someone
 
-!kickme
+kickme
 Will kick user
 
-!about
+about
 Group description
 
-!setphoto
+sp (setphoto)
 Set and locks group photo
 
-!setname [name]
+sn [name] (setname)
 Set group name
 
-!rules
+rules
 Group rules
 
-!id
+id
 return group id or user id
 
-!help
+help
 
-!lock [member|name|bots|leave]	
+lock (lock) [m(member)|n(name)|bot|le(leave)]	
 Locks [member|name|bots|leaveing] 
 
-!unlock [member|name|bots|leave]
+unl (unlock) [m(member)|n(name)|bot|le(leave)]
 Unlocks [member|name|bots|leaving]
 
-!set rules <text>
+s r <text> (set rules)
 Set <text> as rules
 
-!set about <text>
+s a <text> (set about)
 Set <text> as about
 
-!settings
+settings
 Returns group settings
 
-!newlink
+nl (newlink)
 create/revoke your group link
 
-!link
+l (link)
 returns group link
 
-!owner
+owner
 returns group owner id
 
-!setowner [id]
+so [id] (setowner)
 Will set id as owner
 
-!setflood [value]
+sf [value] (setflood)
 Set [value] as flood sensitivity
 
-!stats
+stats
 Simple message statistics
 
-!save [value] <text>
+save [value] <text>
 Save <text> as [value]
 
-!get [value]
+get [value]
 Returns text of [value]
 
-!clean [modlist|rules|about]
+c (clean) [plist|r(rules)|a(about)]
 Will clear [modlist|rules|about] and set it to nil
 
-!res [username]
+res [username]
 returns user id
 "!res @username"
 
-!log
+log
 will return group logs
 
-!banlist
+blist (banlist)
 will return group ban list
 
-**U can use both "/" and "!" 
+telebumper
+Information about robots
+
+**The robot asymptomatic ! And / doing. 
 
 
 *Only owner and mods can add bots in group
