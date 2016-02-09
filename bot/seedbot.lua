@@ -334,7 +334,7 @@ You can also do it by reply
 who
 Members list
 
-modlist (promotelist)
+modlist 
 Moderators list
 
 p [username] (promote)
@@ -363,10 +363,10 @@ return group id or user id
 
 help
 
-lock (lock) [m(member)|n(name)|bot|le(leave)]	
+l (lock) [m(member)|n(name)|bot|leave]	
 Locks [member|name|bots|leaveing] 
 
-unl (unlock) [m(member)|n(name)|bot|le(leave)]
+unl (unlock) [m(member)|n(name)|bot|leave]
 Unlocks [member|name|bots|leaving]
 
 s r <text> (set rules)
@@ -390,7 +390,7 @@ returns group owner id
 so [id] (setowner)
 Will set id as owner
 
-sf [value] (setflood)
+sflood [value] (setflood)
 Set [value] as flood sensitivity
 
 stats
@@ -402,7 +402,7 @@ Save <text> as [value]
 get [value]
 Returns text of [value]
 
-c (clean) [plist|r(rules)|a(about)]
+c (clean) [modlist|r(rules)|a(about)]
 Will clear [modlist|rules|about] and set it to nil
 
 res [username]
