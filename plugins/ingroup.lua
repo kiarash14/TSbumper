@@ -428,7 +428,7 @@ local function unlock_group_photomod(msg, data, target)
   if not is_momod(msg) then
     return "For moderators only!"
   end
-  local group_photo_lock = data[tostring(target)]['settings']['l_p']
+  local group_photo_lock = data[tostring(target)]['settings']['l_photo']
   if group_photo_lock == 'no' then
     return 'Group photo is not locked'
   else
@@ -516,9 +516,9 @@ local function set_group_photo(msg, success, result)
     os.rename(result, file)
     print('File moved to:', file)
     chat_set_photo (receiver, file, ok_cb, false)
-    data[tostring(msg.to.id)]['settings']['s_p'] = file
+    data[tostring(msg.to.id)]['settings']['s_photo'] = file
     save_data(_config.moderation.data, data)
-    data[tostring(msg.to.id)]['settings']['l_p'] = 'yes'
+    data[tostring(msg.to.id)]['settings']['l_photo'] = 'yes'
     save_data(_config.moderation.data, data)
     send_large_msg(receiver, 'Photo saved!', ok_cb, false)
   else
@@ -1008,7 +1008,7 @@ local function run(msg, matches)
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked member ")
         return unlock_group_membermod(msg, data, target)
       end
-      if matches[2] == 'p' then
+      if matches[2] == 'photo' then
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked photo ")
         return unlock_group_photomod(msg, data, target)
       end
@@ -1252,7 +1252,7 @@ return {
   "^(l)$",
   "^(kickinactive)$",
   "^(kickinactive) (%d+)$",
-  "%[(p)%]",
+  "%[(photo)%]",
   "^!!tgservice (.+)$",
   },
   run = run
