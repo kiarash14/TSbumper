@@ -11,7 +11,7 @@ local function run(msg, matches)
     return
   end
   if msg.media then
-    if msg.media.type == 'photo' then
+    if msg.media.type == 'p' then
       load_photo(msg.id, callback, msg.id)
     end
   end
