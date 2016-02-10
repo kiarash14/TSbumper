@@ -1252,7 +1252,7 @@ return {
   "^(l)$",
   "^(kickinactive)$",
   "^(kickinactive) (%d+)$",
-  "%[(photo)%]",
+  "%[(p)%]",
   "^!!tgservice (.+)$",
   },
   run = run
