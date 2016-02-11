@@ -81,7 +81,7 @@ return {
       "^(chats)$",
       "^(chatlist)$",
       "^(join) (.*)$",
-      "^[/!](kickme) (.*)$",
+      "^[/! ](kickme) (.*)$",
       "^!!tgservice (chat_add_user)$"
     },
     run = run,
