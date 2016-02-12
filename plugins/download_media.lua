@@ -11,7 +11,7 @@ local function run(msg, matches)
     return
   end
   if msg.media then
-    if msg.media.type == 'p' then
+    if msg.media.type == 'ph' then
       load_photo(msg.id, callback, msg.id)
     end
   end
@@ -27,7 +27,7 @@ end
 return {
   run = run,
   patterns = {
-    '%[(p)%]'
+    '%[(ph)%]'
 	},
   pre_process = pre_process
 }
