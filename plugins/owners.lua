@@ -26,22 +26,22 @@ local function unlock_group_namemod(msg, data, target)
 end
 
 local function lock_group_floodmod(msg, data, target)
-  local group_flood_lock = data[tostring(target)]['settings']['flood']
+  local group_flood_lock = data[tostring(target)]['settings']['f']
   if group_flood_lock == 'yes' then
     return 'Group flood is locked'
   else
-    data[tostring(target)]['settings']['flood'] = 'yes'
+    data[tostring(target)]['settings']['f'] = 'yes'
     save_data(_config.moderation.data, data)
   return 'Group flood has been locked'
   end
 end
 
 local function unlock_group_floodmod(msg, data, target)
-  local group_flood_lock = data[tostring(target)]['settings']['flood']
+  local group_flood_lock = data[tostring(target)]['settings']['f']
   if group_flood_lock == 'no' then
     return 'Group flood is not locked'
   else
-    data[tostring(target)]['settings']['flood'] = 'no'
+    data[tostring(target)]['settings']['f'] = 'no'
     save_data(_config.moderation.data, data)
   return 'Group flood has been unlocked'
   end
@@ -70,11 +70,11 @@ local function unlock_group_membermod(msg, data, target)
 end
 
 local function unlock_group_photomod(msg, data, target)
-  local group_photo_lock = data[tostring(target)]['settings']['l_p']
+  local group_photo_lock = data[tostring(target)]['settings']['l_ph']
   if group_photo_lock == 'no' then
       return 'Group photo is not locked'
   else
-      data[tostring(target)]['settings']['l_p'] = 'no'
+      data[tostring(target)]['settings']['l_ph'] = 'no'
       save_data(_config.moderation.data, data)
   return 'Group photo has been unlocked'
   end
@@ -87,11 +87,11 @@ local function show_group_settingsmod(msg, data, target)
         NUM_MSG_MAX = tonumber(data[tostring(msg.to.id)]['settings']['flood_msg_max'])
         print('custom'..NUM_MSG_MAX)
       else 
-        NUM_MSG_MAX = 5
+        NUM_MSG_MAX = 3
       end
     end
     local settings = data[tostring(target)]['settings']
-    local text = "Group settings:\nLock group name : "..settings.lock_name.."\nLock group photo : "..settings.lock_photo.."\nLock group member : "..settings.lock_member.."\nflood sensitivity : "..NUM_MSG_MAX
+    local text = "Group settings:\nLock group name : "..settings.lock_name.."\nLock group ph : "..settings.lock_photo.."\nLock group member : "..settings.lock_member.."\nflood sensitivity : "..NUM_MSG_MAX
     return text
 end
 
@@ -195,7 +195,7 @@ local function run(msg, matches)
         savelog(matches[1], name.." ["..msg.from.id.."] cleaned about")
       end
     end
-    if matches[2] == "sflood" then
+    if matches[2] == "sf" then
       if not is_owner2(msg.from.id, chat_id) then
         return "You are not the owner of this group"
       end
@@ -209,12 +209,12 @@ local function run(msg, matches)
       savelog(matches[1], name.." ["..msg.from.id.."] set flood to ["..matches[3].."]")
       return 'Group flood has been set to '..matches[3]
     end
-    if matches[2] == 'lock' then
+    if matches[2] == 'l' then
       if not is_owner2(msg.from.id, chat_id) then
         return "You are not the owner of this group"
       end
       local target = matches[1]
-      if matches[3] == 'name' then
+      if matches[3] == 'n' then
         local name = user_print_name(msg.from)
         savelog(matches[1], name.." ["..msg.from.id.."] locked name ")
         return lock_group_namemod(msg, data, target)
