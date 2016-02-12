@@ -292,7 +292,7 @@ local function run(msg, matches)
       local new_name = string.gsub(matches[3], '_', ' ')
       data[tostring(matches[2])]['settings']['s_n'] = new_name
       save_data(_config.moderation.data, data)
-      local group_name_set = data[tostring(matches[2])]['settings']['set_name']
+      local group_name_set = data[tostring(matches[2])]['settings']['s_n']
       local to_rename = 'chat#id'..matches[2]
       local name = user_print_name(msg.from)
       savelog(matches[2], "Group {}  name changed to [ "..new_name.." ] by "..name.." ["..msg.from.id.."]")
