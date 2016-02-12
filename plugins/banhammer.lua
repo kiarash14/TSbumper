@@ -42,8 +42,8 @@ local function pre_process(msg)
       end
      if data[tostring(msg.to.id)] then
        if data[tostring(msg.to.id)]['settings'] then
-         if data[tostring(msg.to.id)]['settings']['lock_bots'] then 
-           bots_protection = data[tostring(msg.to.id)]['settings']['lock_bots']
+         if data[tostring(msg.to.id)]['settings']['l_bot'] then 
+           bots_protection = data[tostring(msg.to.id)]['settings']['l_bot']
           end
         end
       end
