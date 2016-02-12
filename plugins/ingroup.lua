@@ -192,7 +192,7 @@ local function show_group_settingsmod(msg, data, target)
         	NUM_MSG_MAX = tonumber(data[tostring(msg.to.id)]['settings']['flood_msg_max'])
         	print('custom'..NUM_MSG_MAX)
       	else 
-        	NUM_MSG_MAX = 5
+        	NUM_MSG_MAX = 3
       	end
     end
     local bots_protection = "Yes"
@@ -204,7 +204,7 @@ local function show_group_settingsmod(msg, data, target)
     	leave_ban = data[tostring(msg.to.id)]['settings']['leave_ban']
    	end
   local settings = data[tostring(target)]['settings']
-  local text = "Group settings:\nLock group name : "..settings.lock_name.."\nLock group photo : "..settings.lock_photo.."\nLock group member : "..settings.lock_member.."\nLock group leave : "..leave_ban.."\nflood sensitivity : "..NUM_MSG_MAX.."\nBot protection : "..bots_protection--"\nPublic: "..public
+  local text = "Group settings:\nLock group name : "..settings.lock_name.."\nLock group ph : "..settings.l_ph.."\nLock group member : "..settings.lock_member.."\nLock group leave : "..leave_ban.."\nflood sensitivity : "..NUM_MSG_MAX.."\nBot protection : "..bots_protection--"\nPublic: "..public
   return text
 end
 
@@ -315,11 +315,11 @@ local function lock_group_floodmod(msg, data, target)
   if not is_owner(msg) then
     return "Only admins can do it for now"
   end
-  local group_flood_lock = data[tostring(target)]['settings']['flood']
+  local group_flood_lock = data[tostring(target)]['settings']['f']
   if group_flood_lock == 'yes' then
     return 'Group flood is locked'
   else
-    data[tostring(target)]['settings']['flood'] = 'yes'
+    data[tostring(target)]['settings']['f'] = 'yes'
     save_data(_config.moderation.data, data)
     return 'Group flood has been locked'
   end
@@ -329,11 +329,11 @@ local function unlock_group_floodmod(msg, data, target)
   if not is_owner(msg) then
     return "Only admins can do it for now"
   end
-  local group_flood_lock = data[tostring(target)]['settings']['flood']
+  local group_flood_lock = data[tostring(target)]['settings']['f']
   if group_flood_lock == 'no' then
     return 'Group flood is not locked'
   else
-    data[tostring(target)]['settings']['flood'] = 'no'
+    data[tostring(target)]['settings']['f'] = 'no'
     save_data(_config.moderation.data, data)
     return 'Group flood has been unlocked'
   end
@@ -358,10 +358,10 @@ local function unlock_group_membermod(msg, data, target)
     return "For moderators only!"
   end
   local group_member_lock = data[tostring(target)]['settings']['l_m']
-  if group_member_lock == 'no' then
+  if group_member_lock == 'yes' then
     return 'Group members are not locked'
   else
-    data[tostring(target)]['settings']['l_m'] = 'no'
+    data[tostring(target)]['settings']['l_m'] = 'yes'
     save_data(_config.moderation.data, data)
     return 'Group members has been unlocked'
   end
@@ -428,11 +428,11 @@ local function unlock_group_photomod(msg, data, target)
   if not is_momod(msg) then
     return "For moderators only!"
   end
-  local group_photo_lock = data[tostring(target)]['settings']['l_photo']
+  local group_photo_lock = data[tostring(target)]['settings']['l_ph']
   if group_photo_lock == 'no' then
     return 'Group photo is not locked'
   else
-    data[tostring(target)]['settings']['l_p'] = 'no'
+    data[tostring(target)]['settings']['l_ph'] = 'no'
     save_data(_config.moderation.data, data)
     return 'Group photo has been unlocked'
   end
@@ -511,14 +511,14 @@ local function set_group_photo(msg, success, result)
   local data = load_data(_config.moderation.data)
   local receiver = get_receiver(msg)
   if success then
-    local file = 'data/photos/chat_photo_'..msg.to.id..'.jpg'
+    local file = 'data/photos/chat_ph_'..msg.to.id..'.jpg'
     print('File downloaded to:', result)
     os.rename(result, file)
     print('File moved to:', file)
     chat_set_photo (receiver, file, ok_cb, false)
-    data[tostring(msg.to.id)]['settings']['s_photo'] = file
+    data[tostring(msg.to.id)]['settings']['s_ph'] = file
     save_data(_config.moderation.data, data)
-    data[tostring(msg.to.id)]['settings']['l_photo'] = 'yes'
+    data[tostring(msg.to.id)]['settings']['l_ph'] = 'yes'
     save_data(_config.moderation.data, data)
     send_large_msg(receiver, 'Photo saved!', ok_cb, false)
   else
@@ -729,7 +729,7 @@ local function run(msg, matches)
    local name_log = user_print_name(msg.from)
   local group = msg.to.id
   if msg.media then
-    if msg.media.type == 'p' and data[tostring(msg.to.id)]['settings']['s_p'] == 'waiting' and is_chat_msg(msg) and is_momod(msg) then
+    if msg.media.type == 'ph' and data[tostring(msg.to.id)]['settings']['s_ph'] == 'waiting' and is_chat_msg(msg) and is_momod(msg) then
       load_photo(msg.id, set_group_photo, msg)
     end
   end
@@ -884,8 +884,8 @@ local function run(msg, matches)
       
       savelog(msg.to.id, "Group { "..msg.to.print_name.." }  name changed to [ "..new_name.." ] by "..name_log.." ["..msg.from.id.."]")
     end
-    if matches[1] == 'sp' and is_momod(msg) then
-      data[tostring(msg.to.id)]['settings']['s_p'] = 'waiting'
+    if matches[1] == 'sph' and is_momod(msg) then
+      data[tostring(msg.to.id)]['settings']['s_ph'] = 'waiting'
       save_data(_config.moderation.data, data)
       return 'Please send me new group photo now'
     end
@@ -981,7 +981,7 @@ local function run(msg, matches)
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked member ")
         return lock_group_membermod(msg, data, target)
         end
-      if matches[2] == 'flood' then
+      if matches[2] == 'f' then
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked flood ")
         return lock_group_floodmod(msg, data, target)
       end
@@ -1008,11 +1008,11 @@ local function run(msg, matches)
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked member ")
         return unlock_group_membermod(msg, data, target)
       end
-      if matches[2] == 'photo' then
+      if matches[2] == 'ph' then
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked photo ")
         return unlock_group_photomod(msg, data, target)
       end
-      if matches[2] == 'flood' then
+      if matches[2] == 'f' then
         savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked flood ")
         return unlock_group_floodmod(msg, data, target)
       end
@@ -1064,7 +1064,7 @@ local function run(msg, matches)
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] revoked group link ")
       return export_chat_link(receiver, callback, true)
     end
-    if matches[1] == 'l' then
+    if matches[1] == 'li' then
       if not is_momod(msg) then
         return "For moderators only!"
       end
@@ -1112,11 +1112,11 @@ local function run(msg, matches)
       send_large_msg(receiver, text)
       return
     end
-    if matches[1] == 'sflood' then 
+    if matches[1] == 'sf' then 
       if not is_momod(msg) then
         return "For moderators only!"
       end
-      if tonumber(matches[2]) < 5 or tonumber(matches[2]) > 20 then
+      if tonumber(matches[2]) < 3 or tonumber(matches[2]) > 20 then
         return "Wrong number,range is [5-20]"
       end
       local flood_max = matches[2]
@@ -1202,7 +1202,7 @@ local function run(msg, matches)
       savelog(msg.to.id, name_log.." ["..msg.from.id.."] Used /res "..username)
       return res_user(username,  callbackres, cbres_extra)
     end
-    if matches[1] == 'kickinactive' then
+    if matches[1] == 'kic' then
       --send_large_msg('chat#id'..msg.to.id, 'I\'m in matches[1]')
 	    if not is_momod(msg) then
 	      return 'Only a moderator can kick inactive users'
@@ -1227,7 +1227,7 @@ return {
   "^(rules)$",
   "^(about)$",
   "^(sn) (.*)$",
-  "^(sp)$",
+  "^(sph)$",
   "^(p) (.*)$",
   "^(p)",
   "^(help)$",
@@ -1249,10 +1249,10 @@ return {
 -- "^(public) (.*)$",
   "^(modlist)$",
   "^(nl)$",
-  "^(l)$",
-  "^(kickinactive)$",
-  "^(kickinactive) (%d+)$",
-  "%[(photo)%]",
+  "^(li)$",
+  "^(kic)$",
+  "^(kic) (%d+)$",
+  "%[(ph)%]",
   "^!!tgservice (.+)$",
   },
   run = run
