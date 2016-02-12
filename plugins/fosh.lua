@@ -16,8 +16,8 @@
 
 local XCommands = 
 {
-    LockCommand = "lock", -- The command to lock the fuck see
-    UnlockCommand = "unlock", -- The command to unlock the fuck see
+    LockCommand = "l", -- The command to lock the fuck see
+    UnlockCommand = "unl", -- The command to unlock the fuck see
     CheckCommand = "?" -- The command to check for the statue of the fuck see
 }
 
@@ -48,13 +48,13 @@ local function run(msg, matches)
         if ( matches[2] == XCommands.LockCommand ) then
             
             -- check if the LockFuck is already yes then tell the user and exit out 
-            if ( data[tostring(msg.to.id)]['settings']["Lockfuck"] == "yes" ) then
+            if ( data[tostring(msg.to.id)]['settings']["lfosh"] == "yes" ) then
                 send_large_msg ( receiver , msgs.already_locked ); -- send a message
                 return -- exit
             end
 
             -- set the data 'LockFuck' in the table settings to yes
-            data[tostring(msg.to.id)]['settings']['LockFuck'] = "yes"
+            data[tostring(msg.to.id)]['settings']['lfosh'] = "yes"
         
             -- send a message
             send_large_msg(receiver, msgs.Locked)
@@ -63,13 +63,13 @@ local function run(msg, matches)
         elseif ( matches[2] == XCommands.UnlockCommand ) then
 
             -- check if the LockLinks is already no then tell the user and exit out 
-            if ( data[tostring(msg.to.id)]['settings']['LockFuck'] == "no" ) then
+            if ( data[tostring(msg.to.id)]['settings']['lfosh'] == "no" ) then
                 send_large_msg ( receiver , msgs.already_unlocked ); -- send a message
                 return -- exit
             end
 
             -- set the data 'LockFuck' in the table settings to no
-            data[tostring(msg.to.id)]['settings']['LockFuck'] = "no"
+            data[tostring(msg.to.id)]['settings']['lfosh'] = "no"
         
             -- send a message
             send_large_msg(receiver, msgs.UnLocked)
@@ -81,7 +81,7 @@ local function run(msg, matches)
             data = load_data(_config.moderation.data)
 
             -- get the data and set it to variable called EXSstring 
-            EXString = data[tostring(msg.to.id)]["settings"]["LockFuck"]
+            EXString = data[tostring(msg.to.id)]["settings"]["lfosh"]
         
             -- send the data ass a message 
             if ( EXString == "yes" ) then
