@@ -140,30 +140,30 @@ local function unlock_group_member(msg, data, target)
         end
 end
  
---lock/unlock group photo. bot automatically keep group photo when locked
+--l/unl group ph. bot automatically keep group photo when locked
 local function lock_group_photo(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_photo_lock = data[tostring(target)]['settings']['l_p']
+    local group_photo_lock = data[tostring(target)]['settings']['l_ph']
         if group_photo_lock == 'yes' then
             return 'Group photo is already locked'
         else
-            data[tostring(target)]['settings']['s_p'] = 'waiting'
+            data[tostring(target)]['settings']['s_ph'] = 'waiting'
             save_data(_config.moderation.data, data)
         end
         return 'Please send me the group photo now'
 end
  
-local function unlock_group_photo(msg, data, target)
+local function unl_group_ph(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_photo_lock = data[tostring(target)]['settings']['l_p']
+    local group_photo_lock = data[tostring(target)]['settings']['l_ph']
         if group_photo_lock == 'no' then
             return 'Group photo is not locked'
         else
-            data[tostring(target)]['settings']['l_p'] = 'no'
+            data[tostring(target)]['settings']['l_ph'] = 'no'
             save_data(_config.moderation.data, data)
         return 'Group photo has been unlocked'
         end
@@ -173,11 +173,11 @@ local function lock_group_flood(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_flood_lock = data[tostring(target)]['settings']['flood']
+    local group_flood_lock = data[tostring(target)]['settings']['f']
         if group_flood_lock == 'yes' then
             return 'Group flood is locked'
         else
-            data[tostring(target)]['settings']['flood'] = 'yes'
+            data[tostring(target)]['settings']['f'] = 'yes'
             save_data(_config.moderation.data, data)
         return 'Group flood has been locked'
         end
@@ -187,11 +187,11 @@ local function unlock_group_flood(msg, data, target)
     if not is_admin(msg) then
         return "For admins only!"
     end
-    local group_flood_lock = data[tostring(target)]['settings']['flood']
+    local group_flood_lock = data[tostring(target)]['settings']['f']
         if group_flood_lock == 'no' then
             return 'Group flood is not locked'
         else
-            data[tostring(target)]['settings']['flood'] = 'no'
+            data[tostring(target)]['settings']['f'] = 'no'
             save_data(_config.moderation.data, data)
         return 'Group flood has been unlocked'
         end
@@ -203,7 +203,7 @@ local function show_group_settings(msg, data, target)
         return "For admins only!"
     end
     local settings = data[tostring(target)]['settings']
-    local text = "Group settings:\nLock group name : "..settings.lock_name.."\nLock group photo : "..settings.lock_photo.."\nLock group member : "..settings.lock_member
+    local text = "Group settings:\nLock group name : "..settings.lock_name.."\nLock group ph : "..settings.l_ph.."\nLock group m : "..settings.l_m
     return text
 end
 
@@ -308,8 +308,8 @@ local function groups_list(msg)
                         group_owner = tostring(data[tostring(v)]['s_o'])
                 end
                 local group_link = "No link"
-                if data[tostring(v)]['settings']['s_l'] then
-			group_link = data[tostring(v)]['settings']['s_l']
+                if data[tostring(v)]['settings']['s_li'] then
+			group_link = data[tostring(v)]['settings']['s_li']
 		end
 
                 message = message .. '- '.. name .. ' (' .. v .. ') ['..group_owner..'] \n {'..group_link.."}\n"
@@ -342,8 +342,8 @@ local function realms_list(msg)
                         group_owner = tostring(data[tostring(v)]['admins_in'])
 		end
                 local group_link = "No link"
-                if data[tostring(v)]['settings']['set_link'] then
-			group_link = data[tostring(v)]['settings']['s_l']
+                if data[tostring(v)]['settings']['s_li'] then
+			group_link = data[tostring(v)]['settings']['s_li']
 		end
                 message = message .. '- '.. name .. ' (' .. v .. ') ['..group_owner..'] \n {'..group_link.."}\n"
         end
@@ -494,10 +494,10 @@ function run(msg, matches)
 		    if matches[3] == 'm' then
 		        return lock_group_member(msg, data, target)
 		    end
-		    if matches[3] == 'p' then
+		    if matches[3] == 'ph' then
 		        return lock_group_photo(msg, data, target)
 		    end
-		    if matches[3] == 'flood' then
+		    if matches[3] == 'f' then
 		        return lock_group_flood(msg, data, target)
 		    end
 		end
@@ -509,10 +509,10 @@ function run(msg, matches)
 		    if matches[3] == 'm' then
 		        return unlock_group_member(msg, data, target)
 		    end
-		    if matches[3] == 'p' then
+		    if matches[3] == 'ph' then
 		    	return unlock_group_photo(msg, data, target)
 		    end
-		    if matches[3] == 'flood' then
+		    if matches[3] == 'f' then
 		        return unlock_group_flood(msg, data, target)
 		    end
 		end
@@ -534,7 +534,7 @@ function run(msg, matches)
 		    local new_name = string.gsub(matches[3], '_', ' ')
 		    data[tostring(matches[2])]['settings']['s_n'] = new_name
 		    save_data(_config.moderation.data, data)
-		    local group_name_set = data[tostring(matches[2])]['settings']['set_n']
+		    local group_name_set = data[tostring(matches[2])]['settings']['s_n']
 		    local to_rename = 'chat#id'..matches[2]
 		    rename_chat(to_rename, group_name_set, ok_cb, false)
                     savelog(msg.to.id, "Group { "..msg.to.print_name.." }  name changed to [ "..new_name.." ] by "..name_log.." ["..msg.from.id.."]")
